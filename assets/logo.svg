@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#007AFF"/>
+      <stop offset="100%" stop-color="#5856D6"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0" y1="0" x2="0" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded square -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="108" fill="url(#shine)"/>
+
+  <!-- Database cylinder - top ellipse -->
+  <ellipse cx="256" cy="160" rx="130" ry="42" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Database cylinder - sides -->
+  <path d="M126 160 L126 310" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+  <path d="M386 160 L386 310" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Database cylinder - bottom ellipse -->
+  <path d="M126 310 C126 334 186 352 256 352 C326 352 386 334 386 310" stroke="#ffffff" stroke-width="18" stroke-linecap="round" fill="none"/>
+
+  <!-- Middle ellipse line -->
+  <path d="M126 235 C126 259 186 277 256 277 C326 277 386 259 386 235" stroke="#ffffff" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.5"/>
+
+  <!-- Code cursor / prompt symbol: > _ -->
+  <text x="200" y="440" font-family="SF Mono, Menlo, monospace" font-weight="700" font-size="80" fill="#ffffff" opacity="0.9">&gt;_</text>
+</svg>
