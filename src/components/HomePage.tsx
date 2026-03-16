@@ -74,22 +74,41 @@ export default function HomePage({
     setTestResult(null);
   };
 
+  const favToInput = (fav: FavoriteConnection): ConnectionInput => ({
+    dbType: fav.dbType,
+    host: fav.host,
+    port: fav.port,
+    user: fav.user,
+    password: fav.password,
+    database: fav.database,
+    connectionType: fav.connectionType,
+    socketPath: fav.socketPath,
+    name: fav.name,
+    color: fav.color,
+  });
+
   const loadFavorite = (fav: FavoriteConnection) => {
-    const input: ConnectionInput = {
-      dbType: fav.dbType,
-      host: fav.host,
-      port: fav.port,
-      user: fav.user,
-      password: fav.password,
-      database: fav.database,
-      connectionType: fav.connectionType,
-      socketPath: fav.socketPath,
-      name: fav.name,
-      color: fav.color,
-    };
-    setForm(input);
+    setForm(favToInput(fav));
     setTestResult(null);
     setError("");
+  };
+
+  const connectFavorite = async (fav: FavoriteConnection) => {
+    const input = favToInput(fav);
+    setForm(input);
+    setLoading(true);
+    setError("");
+    setTestResult(null);
+    try {
+      const ok = await invoke<boolean>("test_connection", { connection: input });
+      if (!ok) throw new Error("Connection test returned false");
+      const schema = await invoke<DatabaseSchema>("load_schema", { connection: input });
+      onConnect(input, schema);
+    } catch (err) {
+      setError(String(err));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleTestConnection = async () => {
@@ -141,7 +160,7 @@ export default function HomePage({
   return (
     <div className="homePage">
       <div className="homeContainer">
-        <div className="homeBranding">SQL Studio</div>
+        <div className="homeBranding">Sequel AI</div>
         <div className="homeBrandingSub">
           Connect to MySQL or PostgreSQL databases
         </div>
@@ -159,6 +178,7 @@ export default function HomePage({
                     key={fav.id}
                     className="favoriteItem"
                     onClick={() => loadFavorite(fav)}
+                    onDoubleClick={() => connectFavorite(fav)}
                   >
                     <span
                       className="favColorDot"

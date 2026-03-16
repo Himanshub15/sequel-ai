@@ -1,4 +1,4 @@
-import type { DbType } from "../types";
+import type { DbType, SchemaContextStatus } from "../types";
 
 type StatusBarProps = {
   connected: boolean;
@@ -8,6 +8,7 @@ type StatusBarProps = {
   rowCount: number;
   onCreateTable: () => void;
   onRefreshSchema: () => void;
+  schemaContextStatus: SchemaContextStatus;
 };
 
 export default function StatusBar({
@@ -18,6 +19,7 @@ export default function StatusBar({
   rowCount,
   onCreateTable,
   onRefreshSchema,
+  schemaContextStatus,
 }: StatusBarProps) {
   return (
     <footer className="statusBar">
@@ -53,6 +55,20 @@ export default function StatusBar({
         </button>
       </div>
       <div className="statusRight">
+        {schemaContextStatus !== "idle" && (
+          <>
+            <span
+              className={`schemaStatus ${schemaContextStatus === "generating" ? "schemaStatus--building" : schemaContextStatus === "ready" ? "schemaStatus--ready" : "schemaStatus--error"}`}
+            >
+              {schemaContextStatus === "generating"
+                ? "Building context..."
+                : schemaContextStatus === "ready"
+                  ? "\u2713 Context ready"
+                  : "\u2717 Context error"}
+            </span>
+            <span className="statusSep" />
+          </>
+        )}
         {executionTimeMs !== null && (
           <>
             <span className="statusLabel">{executionTimeMs}ms</span>

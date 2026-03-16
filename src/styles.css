@@ -504,6 +504,13 @@ html, body, #root {
   font-size: 13px;
   font-weight: 700;
   color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.toolbarLogo {
+  flex-shrink: 0;
+  border-radius: 4px;
 }
 
 .toolbarCrumb {
@@ -546,6 +553,35 @@ html, body, #root {
 
 .toolbarRight {
   -webkit-app-region: no-drag;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.toolbarSep {
+  color: var(--border);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+.toolbarIconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.toolbarIconBtn:hover {
+  background: var(--hover);
+  color: var(--text);
 }
 
 /* ── Workspace Body ────────────────────────────────────────────────────────── */
@@ -596,32 +632,225 @@ html, body, #root {
   padding: 0 4px 8px;
 }
 
-.tableItem {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  background: transparent;
-  color: var(--text);
-  font-size: 12px;
-  cursor: pointer;
-  margin: 1px 0;
-}
-.tableItem:hover {
-  background: var(--hover);
-}
-.tableItem.active {
-  background: var(--accent);
-  color: #ffffff;
-}
+/* tableItem styles moved to bottom with icon/count support */
 
 .tableListEmpty {
   padding: 16px;
   font-size: 12px;
   color: var(--text-muted);
   text-align: center;
+}
+
+/* ── Categorized Sidebar ──────────────────────────────────────────────────── */
+
+.sidebarCategory {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 6px 10px;
+  border: none;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  text-align: left;
+}
+.categoryHeader:hover {
+  background: var(--hover);
+}
+
+.categoryArrow {
+  font-size: 8px;
+  transition: transform 0.15s;
+  color: var(--text-muted);
+}
+.categoryArrow.expanded {
+  transform: rotate(90deg);
+}
+
+.categoryLabel {
+  flex: 1;
+}
+
+.categoryBadge {
+  font-size: 9px;
+  background: var(--border);
+  color: var(--text-muted);
+  border-radius: 8px;
+  padding: 1px 6px;
+  font-weight: 600;
+}
+
+.categoryItems {
+  /* empty - just a container */
+}
+
+.categoryEmpty {
+  padding: 6px 12px;
+  font-size: 11px;
+  color: var(--text-placeholder);
+  font-style: italic;
+}
+
+/* ── Database Selector ────────────────────────────────────────────────────── */
+
+.toolbarDbSelect {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12px;
+  padding: 2px 6px;
+  cursor: pointer;
+  max-width: 180px;
+}
+.toolbarDbSelect:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ── Table Info View ──────────────────────────────────────────────────────── */
+
+.tableInfoView {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+}
+
+.tableInfoHeader {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+}
+
+.tableInfoTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.tableInfoBody {
+  padding: 16px;
+  flex: 1;
+}
+
+.tableInfoTable {
+  width: 100%;
+  max-width: 500px;
+  border-collapse: collapse;
+}
+
+.tableInfoRow td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 12px;
+}
+
+.tableInfoLabel {
+  font-weight: 600;
+  color: var(--text-secondary);
+  width: 140px;
+}
+
+.tableInfoValue {
+  color: var(--text);
+}
+
+.tableInfoLoading,
+.tableInfoError {
+  padding: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.tableInfoError {
+  color: var(--danger);
+}
+
+/* ── Triggers View ────────────────────────────────────────────────────────── */
+
+.triggersView {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: auto;
+}
+
+.triggersHeader {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+}
+
+.triggersTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.triggersBody {
+  flex: 1;
+  overflow: auto;
+}
+
+.triggersEmpty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 40px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.triggersLoading,
+.triggersError {
+  padding: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.triggersError {
+  color: var(--danger);
+}
+
+.triggerExpandBtn {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 10px;
+  cursor: pointer;
+}
+.triggerExpandBtn:hover {
+  background: var(--hover);
+}
+
+.triggerStatement {
+  margin-top: 6px;
+  padding: 8px;
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 200px;
+  overflow: auto;
 }
 
 /* ── Workspace Main ────────────────────────────────────────────────────────── */
@@ -823,12 +1052,15 @@ html, body, #root {
   resize: none;
   border: 0;
   border-radius: 0;
-  background: var(--bg);
-  color: var(--text);
+  background: transparent;
+  color: transparent;
+  caret-color: var(--text);
   padding: 10px 12px;
   font: 13px/1.5 "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
   outline: none;
   overflow: auto;
+  position: relative;
+  z-index: 1;
 }
 .sqlArea::placeholder {
   color: var(--text-placeholder);
@@ -1142,6 +1374,1069 @@ button {
   background: var(--danger-bg);
 }
 
+/* ══════════════════════════════════════════════════════════════════════════════
+   AI CHAT PANEL — Right sidebar
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.workspaceBody--withAi {
+  grid-template-columns: 220px 1fr 4px var(--ai-panel-width, 320px);
+}
+
+.resizeHandle {
+  width: 4px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 0.15s;
+  position: relative;
+  z-index: 5;
+}
+.resizeHandle:hover,
+.resizeHandle:active {
+  background: var(--accent);
+  opacity: 0.5;
+}
+
+.aiChatPanel {
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-left: 1px solid var(--border);
+  min-height: 0;
+  overflow: hidden;
+}
+
+.aiChatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.aiChatTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.aiChatHeaderActions {
+  display: flex;
+  gap: 4px;
+}
+
+.aiChatHeaderBtn {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+.aiChatHeaderBtn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.aiChatMessages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: #ffffff;
+}
+
+.aiChatEmpty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  padding: 20px;
+}
+
+.aiChatUnconfigured {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 20px;
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.chatMsg {
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chatMsg--user {
+  background: var(--accent-bg);
+  align-self: flex-end;
+  max-width: 90%;
+}
+
+.chatMsg--assistant {
+  background: var(--bg-secondary);
+  align-self: flex-start;
+  max-width: 95%;
+}
+
+.chatMsgRole {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.chatMsgText {
+  color: var(--text);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chatMsgLoading {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.chatSqlBlock {
+  margin: 6px 0;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.chatSqlCode {
+  padding: 8px 10px;
+  background: var(--bg);
+  font: 11px/1.5 "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
+  color: var(--text);
+  overflow-x: auto;
+  white-space: pre;
+  margin: 0;
+}
+
+.chatApplyBtn {
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.chatApplyBtn:hover {
+  background: var(--accent-bg);
+}
+
+.chatError {
+  padding: 6px 10px;
+  background: var(--danger-bg);
+  border: 1px solid rgba(255, 59, 48, 0.2);
+  border-radius: 6px;
+  color: var(--danger);
+  font-size: 11px;
+}
+
+.aiChatInput {
+  padding: 8px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-secondary);
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.aiChatTextarea {
+  flex: 1;
+  resize: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #ffffff;
+  color: var(--text);
+  padding: 6px 8px;
+  font: 12px/1.4 inherit;
+  min-height: 36px;
+}
+.aiChatTextarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15);
+}
+.aiChatTextarea::placeholder {
+  color: var(--text-placeholder);
+}
+
+.aiChatSendBtn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  align-self: flex-end;
+  transition: background 0.15s;
+}
+.aiChatSendBtn:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+.aiChatSendBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── AI Toggle Button (Toolbar) ────────────────────────────────────────────── */
+
+.aiToggleBtn {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 6px;
+  transition: all 0.15s;
+}
+.aiToggleBtn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.aiToggleBtn.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   MODAL — Settings overlay
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modalContent {
+  background: var(--bg);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  width: 440px;
+  max-width: 90vw;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.modalTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.modalClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 14px;
+  cursor: pointer;
+}
+.modalClose:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+.modalBody {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--border-light);
+}
+
+.aiPresets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.aiPresetBtn {
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.aiPresetBtn:hover {
+  background: var(--hover);
+}
+.aiPresetBtn.active {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Animations ────────────────────────────────────────────────────────────── */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes thinkingBounce {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+
+/* ── Table List Items (with icons + row counts) ───────────────────────────── */
+
+.tableItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+  text-align: left;
+  padding: 5px 10px;
+  border: none;
+  border-left: 2px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  margin: 1px 0;
+  transition: all 0.12s;
+}
+.tableItem:hover {
+  background: var(--hover);
+}
+.tableItem.active {
+  background: var(--accent-bg);
+  color: var(--accent);
+  border-left-color: var(--accent);
+  font-weight: 600;
+}
+
+.tableItemIcon {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+.tableItem.active .tableItemIcon {
+  color: var(--accent);
+  opacity: 0.8;
+}
+
+.tableItemName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tableItemCount {
+  flex-shrink: 0;
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--bg);
+  padding: 1px 5px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.tableItem.active .tableItemCount {
+  background: rgba(0, 122, 255, 0.12);
+  color: var(--accent);
+}
+
+.fuzzyMatch {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ── Sortable Headers ─────────────────────────────────────────────────────── */
+
+.sortableHeader {
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+}
+.sortableHeader:hover {
+  background: var(--hover);
+}
+.sortArrow {
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* ── Clickable Cells ──────────────────────────────────────────────────────── */
+
+.cellClickable {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.cellClickable:hover {
+  background: var(--accent-bg) !important;
+}
+
+/* ── Content Actions ──────────────────────────────────────────────────────── */
+
+.contentTableName {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.contentActions {
+  margin-left: auto;
+  display: flex;
+  gap: 4px;
+}
+
+/* ── Pagination ───────────────────────────────────────────────────────────── */
+
+.paginationBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  border-top: 1px solid var(--border-light);
+  background: var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.paginationLeft,
+.paginationCenter,
+.paginationRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+.paginationCenter {
+  justify-content: center;
+}
+.paginationRight {
+  justify-content: flex-end;
+}
+
+.paginationBtn {
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.paginationBtn:hover:not(:disabled) {
+  background: var(--hover);
+}
+.paginationBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.paginationInfo {
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.pageSizeSelect {
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* ── SQL Syntax Highlighting ──────────────────────────────────────────────── */
+
+.editorTextWrap {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sqlHighlight {
+  position: absolute;
+  inset: 0;
+  padding: 10px 12px;
+  font: 13px/1.5 "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
+  pointer-events: none;
+  color: transparent;
+}
+
+.sqlKeyword {
+  color: #0055aa;
+  font-weight: 600;
+}
+.sqlString {
+  color: #b5440f;
+}
+.sqlNumber {
+  color: #4338ca;
+}
+.sqlComment {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Editor Action Buttons ────────────────────────────────────────────────── */
+
+.editorActionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.editorActionBtn:hover:not(:disabled) {
+  background: var(--hover);
+  color: var(--text);
+}
+.editorActionBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.editorActionBtn.active {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.explainBtn {
+  color: var(--text-secondary);
+}
+
+.historyBtn svg {
+  display: block;
+}
+
+/* ── History Panel ────────────────────────────────────────────────────────── */
+
+.historyPanel {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  max-height: 240px;
+  display: flex;
+  flex-direction: column;
+  animation: slideInUp 0.15s ease-out;
+}
+
+.historyHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0;
+}
+
+.historyTitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.historyList {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.historyItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 7px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-light);
+  transition: background 0.1s;
+}
+.historyItem:hover {
+  background: var(--hover);
+}
+
+.historyItemSql {
+  font: 11px/1.4 "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.historyItemMeta {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.historyOk { color: var(--ok); }
+.historyErr { color: var(--danger); }
+
+.historyEmpty {
+  padding: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* ── Empty States ─────────────────────────────────────────────────────────── */
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.emptyStateIcon {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.emptyStateText {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.5;
+}
+.emptyStateText kbd {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── Result Header Right ──────────────────────────────────────────────────── */
+
+.resultHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Toast Notifications ──────────────────────────────────────────────────── */
+
+.toastContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--text);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  animation: slideInUp 0.2s ease-out;
+  max-width: 320px;
+}
+.toast--success {
+  background: #15803d;
+}
+.toast--error {
+  background: var(--danger);
+}
+.toast--info {
+  background: #1d4ed8;
+}
+
+.toastIcon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.toastMessage {
+  flex: 1;
+  line-height: 1.3;
+}
+
+/* ── Context Menu ─────────────────────────────────────────────────────────── */
+
+.contextMenu {
+  position: fixed;
+  z-index: 1000;
+  min-width: 180px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+  padding: 4px 0;
+  animation: scaleIn 0.12s ease-out;
+  transform-origin: top left;
+}
+
+.contextMenuItem {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 7px 14px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.08s;
+}
+.contextMenuItem:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+.contextMenuItem.danger {
+  color: var(--danger);
+}
+.contextMenuItem.danger:hover {
+  background: var(--danger);
+  color: #ffffff;
+}
+
+.contextMenuSep {
+  height: 1px;
+  background: var(--border-light);
+  margin: 4px 0;
+}
+
+/* ── Shortcuts Modal ──────────────────────────────────────────────────────── */
+
+.shortcutsOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.shortcutsModal {
+  background: var(--bg);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  width: 420px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 24px;
+  animation: scaleIn 0.2s ease-out;
+}
+
+.shortcutsTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+
+.shortcutsTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.shortcutsTable td {
+  padding: 8px 0;
+  border: none;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 12px;
+  background: transparent !important;
+}
+.shortcutsTable tr:hover td {
+  background: transparent !important;
+}
+.shortcutsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.shortcutKey {
+  text-align: right;
+  padding-right: 16px !important;
+  white-space: nowrap;
+}
+.shortcutKey kbd {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  font-family: "SF Mono", "JetBrains Mono", Menlo, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  box-shadow: 0 1px 0 var(--border);
+}
+
+.shortcutAction {
+  color: var(--text-secondary);
+}
+
+.shortcutsClose {
+  margin-top: 16px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.shortcutsClose:hover {
+  background: var(--hover);
+}
+
+/* ── Schema Status (StatusBar) ────────────────────────────────────────────── */
+
+.schemaStatus {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+}
+.schemaStatus--generating {
+  color: #b45309;
+  animation: pulse 1.5s infinite;
+}
+.schemaStatus--ready {
+  color: #15803d;
+}
+.schemaStatus--error {
+  color: var(--danger);
+}
+
+/* ── Thinking Dots (AI Chat) ──────────────────────────────────────────────── */
+
+.thinkingDots::after {
+  content: "...";
+  display: inline;
+  letter-spacing: 2px;
+  animation: thinkingBounce 1.2s infinite;
+}
+
+.chatMsgLoading {
+  color: var(--text-muted);
+}
+
+/* ── Ghost Action Button ──────────────────────────────────────────────────── */
+
+.ghostAction {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.ghostAction:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+.ghostAction.small {
+  padding: 3px 10px;
+  font-size: 11px;
+}
+
+/* ── Button Micro-interactions ────────────────────────────────────────────── */
+
+.runBtn:active:not(:disabled),
+.paginationBtn:active:not(:disabled),
+.editorActionBtn:active:not(:disabled),
+.ghostAction:active,
+.aiChatSendBtn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ── Scrollbar Polish ─────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.25);
+}
+
+.tableListScroll::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+.tableListScroll:hover::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.15);
+}
+
+/* ── Status Bar pulse ─────────────────────────────────────────────────────── */
+
+.statusIndicator[data-on="true"] {
+  animation: pulse 2s infinite;
+}
+
+/* ── Editor shell relative for history ────────────────────────────────────── */
+
+.editorShell {
+  position: relative;
+}
+
+/* ── AI Chat Panel polish ─────────────────────────────────────────────────── */
+
+.aiChatPanel {
+  animation: slideInRight 0.2s ease-out;
+}
+
+.aiChatUnconfigured {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.aiChatEmpty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.chatError {
+  padding: 8px 12px;
+  margin: 4px 12px;
+  font-size: 12px;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border-radius: 6px;
+}
+
 /* ── Responsive ────────────────────────────────────────────────────────────── */
 
 @media (max-width: 700px) {
@@ -1154,7 +2449,16 @@ button {
   .workspaceBody {
     grid-template-columns: 1fr;
   }
+  .workspaceBody--withAi {
+    grid-template-columns: 1fr;
+  }
   .tableListSidebar {
+    display: none;
+  }
+  .aiChatPanel {
+    display: none;
+  }
+  .aiToggleBtn {
     display: none;
   }
 }

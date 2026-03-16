@@ -43,6 +43,28 @@ export type TableSchema = {
 export type DatabaseSchema = {
   database: string;
   tables: TableSchema[];
+  views: string[];
+  procedures: string[];
+  functions: string[];
+};
+
+export type TableInfo = {
+  engine: string;
+  rowCount: number;
+  dataSize: string;
+  indexSize: string;
+  autoIncrement: string;
+  createTime: string;
+  updateTime: string;
+  collation: string;
+  comment: string;
+};
+
+export type TriggerInfo = {
+  triggerName: string;
+  event: string;
+  timing: string;
+  statement: string;
 };
 
 export type TabState = {
@@ -56,7 +78,7 @@ export type TabState = {
 
 export type AppPage = "home" | "workspace";
 
-export type WorkspaceTab = "content" | "structure" | "relations" | "query";
+export type WorkspaceTab = "content" | "structure" | "relations" | "info" | "query" | "triggers";
 
 export type FavoriteConnection = {
   id: string;
@@ -113,4 +135,60 @@ export type ConnectionTab = {
   queryResult: QueryResultData | null;
   queryError: string;
   executionTimeMs: number | null;
+  schemaMarkdown: string;
+  schemaContextStatus: SchemaContextStatus;
+  tableRowCounts: Record<string, number>;
+  queryHistory: QueryHistoryEntry[];
+  chatMessages: ChatMessage[];
+};
+
+// ── Schema Context ───────────────────────────────────────────────────────────
+
+export type SchemaContextStatus = "idle" | "generating" | "ready" | "error";
+
+// ── Query History ────────────────────────────────────────────────────────────
+
+export type QueryHistoryEntry = {
+  id: string;
+  sql: string;
+  database: string;
+  dbType: DbType;
+  executionTimeMs: number;
+  rowCount: number;
+  timestamp: number;
+  success: boolean;
+};
+
+// ── Toast ────────────────────────────────────────────────────────────────────
+
+export type ToastMessage = {
+  id: string;
+  message: string;
+  type: "success" | "error" | "info";
+  timestamp: number;
+};
+
+// ── Pagination & Sorting ─────────────────────────────────────────────────────
+
+export type SortState = {
+  column: string;
+  direction: "asc" | "desc";
+} | null;
+
+// ── AI Chat Types ─────────────────────────────────────────────────────────────
+
+export type AiSettings = {
+  baseUrl: string;
+  apiKey: string;
+  model: string;
+};
+
+export type ChatMessageRole = "user" | "assistant" | "system";
+
+export type ChatMessage = {
+  id: string;
+  role: ChatMessageRole;
+  content: string;
+  timestamp: number;
+  sqlBlocks?: string[];
 };

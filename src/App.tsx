@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
+import { invoke } from "@tauri-apps/api/core";
 import type {
   ConnectionTab,
   ConnectionInput,
@@ -7,9 +8,12 @@ import type {
 } from "./types";
 import { useFavorites } from "./hooks/useFavorites";
 import { useTableComments } from "./hooks/useTableComments";
+import { useToast } from "./hooks/useToast";
+import { useQueryHistory } from "./hooks/useQueryHistory";
 import ConnectionTabBar from "./components/ConnectionTabBar";
 import HomePage from "./components/HomePage";
 import WorkspacePage from "./components/WorkspacePage";
+import ToastContainer from "./components/ToastContainer";
 
 const defaultConnection: ConnectionInput = {
   dbType: "mysql",
@@ -36,6 +40,11 @@ function createTab(input?: ConnectionInput): ConnectionTab {
     queryResult: null,
     queryError: "",
     executionTimeMs: null,
+    schemaMarkdown: "",
+    schemaContextStatus: "idle",
+    tableRowCounts: {},
+    queryHistory: [],
+    chatMessages: [],
   };
 }
 
@@ -44,6 +53,8 @@ export default function App() {
   const [activeTabId, setActiveTabId] = useState(tabs[0].id);
   const { favorites, addFavorite, removeFavorite } = useFavorites();
   const { getComment, setComment } = useTableComments();
+  const { toasts, addToast, removeToast } = useToast();
+  const { history, addEntry, clearHistory } = useQueryHistory();
 
   const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
 
@@ -77,7 +88,7 @@ export default function App() {
   );
 
   const handleConnect = useCallback(
-    (tabId: string, input: ConnectionInput, schema: DatabaseSchema) => {
+    async (tabId: string, input: ConnectionInput, schema: DatabaseSchema) => {
       updateTab(tabId, {
         page: "workspace",
         connectionInput: input,
@@ -88,9 +99,29 @@ export default function App() {
         queryResult: null,
         queryError: "",
         executionTimeMs: null,
+        schemaContextStatus: "generating",
+      });
+
+      // Fire schema MD and row counts in parallel (non-blocking)
+      Promise.all([
+        invoke<string>("generate_schema_md", { connection: input }).catch(
+          () => ""
+        ),
+        invoke<Record<string, number>>("get_table_row_counts", {
+          connection: input,
+        }).catch(() => ({})),
+      ]).then(([md, counts]) => {
+        updateTab(tabId, {
+          schemaMarkdown: md,
+          schemaContextStatus: md ? "ready" : "error",
+          tableRowCounts: counts,
+        });
+        if (md) {
+          addToast("Schema context built successfully", "success");
+        }
       });
     },
-    [updateTab]
+    [updateTab, addToast]
   );
 
   const handleDisconnect = useCallback(
@@ -104,6 +135,11 @@ export default function App() {
         queryResult: null,
         queryError: "",
         executionTimeMs: null,
+        schemaMarkdown: "",
+        schemaContextStatus: "idle",
+        tableRowCounts: {},
+        queryHistory: [],
+        chatMessages: [],
       });
     },
     [updateTab]
@@ -135,26 +171,40 @@ export default function App() {
         onNewTab={createNewTab}
         onCloseTab={closeTab}
       />
-      {activeTab.page === "workspace" && activeTab.schema ? (
-        <WorkspacePage
-          tab={activeTab}
-          updateTab={(patch) => updateTab(activeTab.id, patch)}
-          onDisconnect={() => handleDisconnect(activeTab.id)}
-          getComment={getComment}
-          setComment={setComment}
-        />
-      ) : (
-        <HomePage
-          tab={activeTab}
-          updateTab={(patch) => updateTab(activeTab.id, patch)}
-          onConnect={(input, schema) =>
-            handleConnect(activeTab.id, input, schema)
-          }
-          favorites={favorites}
-          onAddFavorite={addFavorite}
-          onRemoveFavorite={removeFavorite}
-        />
+      {/* Render all workspace tabs but hide inactive ones so AI requests survive tab switches */}
+      {tabs.map((tab) =>
+        tab.page === "workspace" && tab.schema ? (
+          <div
+            key={tab.id}
+            style={{ display: tab.id === activeTabId ? "contents" : "none" }}
+          >
+            <WorkspacePage
+              tab={tab}
+              updateTab={(patch) => updateTab(tab.id, patch)}
+              onDisconnect={() => handleDisconnect(tab.id)}
+              getComment={getComment}
+              setComment={setComment}
+              addToast={addToast}
+              queryHistory={history}
+              addHistoryEntry={addEntry}
+              clearHistory={clearHistory}
+            />
+          </div>
+        ) : tab.id === activeTabId ? (
+          <HomePage
+            key={tab.id}
+            tab={tab}
+            updateTab={(patch) => updateTab(tab.id, patch)}
+            onConnect={(input, schema) =>
+              handleConnect(tab.id, input, schema)
+            }
+            favorites={favorites}
+            onAddFavorite={addFavorite}
+            onRemoveFavorite={removeFavorite}
+          />
+        ) : null
       )}
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
     </div>
   );
 }

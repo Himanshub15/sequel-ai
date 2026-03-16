@@ -5,6 +5,8 @@ type ShortcutHandlers = {
   newTab: () => void;
   closeTab: () => void;
   openConnection: () => void;
+  toggleAi: () => void;
+  showShortcuts: () => void;
 };
 
 export function useKeyboardShortcuts(handlers: ShortcutHandlers) {
@@ -25,6 +27,16 @@ export function useKeyboardShortcuts(handlers: ShortcutHandlers) {
       if (mod && e.key === "w") {
         e.preventDefault();
         handlers.closeTab();
+      }
+
+      if (mod && e.key === "i") {
+        e.preventDefault();
+        handlers.toggleAi();
+      }
+
+      if (mod && (e.key === "?" || (e.shiftKey && e.key === "/"))) {
+        e.preventDefault();
+        handlers.showShortcuts();
       }
     },
     [handlers]

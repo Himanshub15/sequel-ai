@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#007aff"/>
+      <stop offset="100%" stop-color="#5856d6"/>
+    </linearGradient>
+    <!-- Cylinder top gradient -->
+    <linearGradient id="cylTop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#e8e8f0" stop-opacity="0.85"/>
+    </linearGradient>
+    <!-- Cylinder body gradient -->
+    <linearGradient id="cylBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#d0d0e0" stop-opacity="0.7"/>
+    </linearGradient>
+    <!-- Sparkle glow -->
+    <radialGradient id="sparkleGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Subtle inner shadow -->
+    <filter id="innerShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="8" result="blur"/>
+      <feOffset dx="0" dy="4" result="offsetBlur"/>
+      <feComposite in="SourceGraphic" in2="offsetBlur" operator="over"/>
+    </filter>
+    <!-- Drop shadow for cylinder -->
+    <filter id="cylShadow" x="-20%" y="-10%" width="140%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#1a1a4a" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded square background (macOS style) -->
+  <rect x="0" y="0" width="1024" height="1024" rx="228" ry="228" fill="url(#bgGrad)"/>
+
+  <!-- Subtle overlay for depth -->
+  <rect x="0" y="0" width="1024" height="512" rx="228" ry="228" fill="white" opacity="0.06"/>
+
+  <!-- Database cylinder group - centered -->
+  <g filter="url(#cylShadow)" transform="translate(512, 480)">
+    <!-- Cylinder body -->
+    <path d="M-180,60 L-180,-160 C-180,-160 -180,-220 0,-220 C180,-220 180,-160 180,-160 L180,60 C180,60 180,120 0,120 C-180,120 -180,60 -180,60 Z" fill="url(#cylBody)"/>
+
+    <!-- Middle disc line 1 -->
+    <ellipse cx="0" cy="-40" rx="180" ry="60" fill="none" stroke="white" stroke-opacity="0.3" stroke-width="2.5"/>
+
+    <!-- Middle disc line 2 -->
+    <ellipse cx="0" cy="40" rx="180" ry="60" fill="none" stroke="white" stroke-opacity="0.25" stroke-width="2.5"/>
+
+    <!-- Bottom ellipse -->
+    <ellipse cx="0" cy="60" rx="180" ry="60" fill="url(#cylBody)" stroke="white" stroke-opacity="0.15" stroke-width="1.5"/>
+
+    <!-- Top ellipse (cap) -->
+    <ellipse cx="0" cy="-160" rx="180" ry="60" fill="url(#cylTop)"/>
+
+    <!-- Top ellipse highlight -->
+    <ellipse cx="0" cy="-168" rx="140" ry="38" fill="white" opacity="0.2"/>
+
+    <!-- Vertical edge highlights -->
+    <line x1="-180" y1="-160" x2="-180" y2="60" stroke="white" stroke-opacity="0.15" stroke-width="2"/>
+    <line x1="180" y1="-160" x2="180" y2="60" stroke="white" stroke-opacity="0.08" stroke-width="2"/>
+  </g>
+
+  <!-- AI Sparkle - top right area -->
+  <g transform="translate(720, 220)">
+    <!-- Glow behind sparkle -->
+    <circle cx="0" cy="0" r="70" fill="url(#sparkleGlow)"/>
+
+    <!-- 4-point sparkle star -->
+    <path d="M0,-52 C4,-12 12,-4 52,0 C12,4 4,12 0,52 C-4,12 -12,4 -52,0 C-12,-4 -4,-12 0,-52 Z" fill="white" opacity="0.95"/>
+
+    <!-- Small secondary sparkle -->
+    <g transform="translate(50, -40)">
+      <path d="M0,-20 C2,-5 5,-2 20,0 C5,2 2,5 0,20 C-2,5 -5,2 -20,0 C-5,-2 -2,-5 0,-20 Z" fill="white" opacity="0.7"/>
+    </g>
+
+    <!-- Tiny tertiary sparkle -->
+    <g transform="translate(-35, 48)">
+      <path d="M0,-12 C1,-3 3,-1 12,0 C3,1 1,3 0,12 C-1,3 -3,1 -12,0 C-3,-1 -1,-3 0,-12 Z" fill="white" opacity="0.5"/>
+    </g>
+  </g>
+
+  <!-- Small circuit dots connecting sparkle to database -->
+  <circle cx="665" cy="310" r="4" fill="white" opacity="0.35"/>
+  <circle cx="640" cy="345" r="3" fill="white" opacity="0.25"/>
+  <circle cx="620" cy="375" r="2.5" fill="white" opacity="0.2"/>
+</svg>
