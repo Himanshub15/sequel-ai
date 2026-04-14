@@ -1,5 +1,5 @@
-import { useRef, useCallback, useState, useMemo } from "react";
-import type { QueryHistoryEntry } from "../types";
+import { useRef, useCallback, useState, useMemo, useEffect } from "react";
+import type { QueryHistoryEntry, QueryFavorite } from "../types";
 
 type EditorProps = {
   query: string;
@@ -10,6 +10,9 @@ type EditorProps = {
   dbType: string;
   queryHistory: QueryHistoryEntry[];
   onClearHistory: () => void;
+  queryFavorites: QueryFavorite[];
+  onAddFavorite: (name: string, sql: string) => void;
+  onRemoveFavorite: (id: string) => void;
 };
 
 const SQL_KEYWORDS = new Set([
@@ -56,16 +59,26 @@ export default function Editor({
   dbType,
   queryHistory,
   onClearHistory,
+  queryFavorites,
+  onAddFavorite,
+  onRemoveFavorite,
 }: EditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const lineNumbersRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
   const [showHistory, setShowHistory] = useState(false);
+  const [showFavorites, setShowFavorites] = useState(false);
+  const [favName, setFavName] = useState("");
 
   const lines = query.split("\n");
   const lineCount = lines.length;
 
-  const highlighted = useMemo(() => highlightSql(query), [query]);
+  const [highlighted, setHighlighted] = useState(() => highlightSql(query));
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setHighlighted(highlightSql(query)));
+    return () => cancelAnimationFrame(id);
+  }, [query]);
 
   const syncScroll = useCallback(() => {
     if (textareaRef.current) {
@@ -118,6 +131,19 @@ export default function Editor({
     setShowHistory(false);
   };
 
+  const handleSaveFavorite = () => {
+    const name = favName.trim() || query.trim().substring(0, 40);
+    if (!query.trim()) return;
+    onAddFavorite(name, query.trim());
+    setFavName("");
+    setShowFavorites(true);
+  };
+
+  const handleFavoriteSelect = (sql: string) => {
+    onQueryChange(sql);
+    setShowFavorites(false);
+  };
+
   return (
     <div className="editorShell">
       <div className="editorTop">
@@ -125,13 +151,33 @@ export default function Editor({
           <button
             type="button"
             className={`editorActionBtn historyBtn ${showHistory ? "active" : ""}`}
-            onClick={() => setShowHistory((p) => !p)}
+            onClick={() => { setShowHistory((p) => !p); setShowFavorites(false); }}
             title="Query History"
           >
             <svg viewBox="0 0 16 16" width="14" height="14">
               <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" strokeWidth="1.3"/>
               <polyline points="8,4 8,8 11,10" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
             </svg>
+          </button>
+          <button
+            type="button"
+            className={`editorActionBtn ${showFavorites ? "active" : ""}`}
+            onClick={() => { setShowFavorites((p) => !p); setShowHistory(false); }}
+            title="Saved Queries"
+          >
+            <svg viewBox="0 0 16 16" width="14" height="14">
+              <path d="M8 1.5l2 4 4.5.7-3.2 3.1.8 4.4L8 11.5l-4.1 2.2.8-4.4L1.5 6.2 6 5.5z"
+                fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            className="editorActionBtn"
+            onClick={handleSaveFavorite}
+            disabled={!query.trim()}
+            title="Save current query"
+          >
+            + Save
           </button>
           <button
             type="button"
@@ -227,6 +273,45 @@ export default function Editor({
                     </span>
                   </div>
                 </button>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Favorites dropdown */}
+      {showFavorites && (
+        <div className="historyPanel">
+          <div className="historyHeader">
+            <span className="historyTitle">Saved Queries</span>
+          </div>
+          <div className="historyList">
+            {queryFavorites.length === 0 ? (
+              <div className="historyEmpty">No saved queries yet. Click "+ Save" to save the current query.</div>
+            ) : (
+              queryFavorites.map((fav) => (
+                <div key={fav.id} className="historyItem favItem">
+                  <button
+                    type="button"
+                    className="favItemBody"
+                    onClick={() => handleFavoriteSelect(fav.sql)}
+                  >
+                    <div className="favItemName">{fav.name}</div>
+                    <div className="historyItemSql">
+                      {fav.sql.length > 80
+                        ? fav.sql.substring(0, 80) + "..."
+                        : fav.sql}
+                    </div>
+                  </button>
+                  <button
+                    type="button"
+                    className="favRemoveBtn"
+                    onClick={() => onRemoveFavorite(fav.id)}
+                    title="Remove"
+                  >
+                    &times;
+                  </button>
+                </div>
               ))
             )}
           </div>

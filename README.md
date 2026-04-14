@@ -38,10 +38,16 @@ No Electron. No 500MB RAM. Just a fast, native tool with AI superpowers.
 - **Foreign key relations** — See how your tables are connected
 - **Table info** — Engine, row count, data size, collation, and more
 - **Triggers view** — Browse triggers with expandable SQL statements
-- **Query editor** — Syntax-friendly editor with line numbers, `Cmd+Enter` to run
+- **Query editor** — SQL syntax highlighting, line numbers, `Cmd+Enter` to run
 - **Data grid** — Fast table rendering with row numbers, null highlighting, alternating rows
+- **Content filters** — Add WHERE conditions to filter table data without writing SQL
+- **Inline editing** — Double-click any cell to edit, auto-saves via UPDATE (primary key aware)
+- **Export** — One-click CSV or JSON export from content view and query results
+- **Query favorites** — Save and name your go-to queries for quick access
+- **Query history** — Browse past queries with execution time, row count, and status
+- **Dark mode** — Light and dark themes with persistent toggle
 - **Schema tools** — Create table templates, one-click schema refresh
-- **Persistence** — Favorites, table comments, and AI settings survive restarts
+- **Persistence** — Favorites, table comments, theme, and AI settings survive restarts
 - **Color-coded connections** — 5 colors to visually distinguish dev, staging, and prod
 
 ### AI Assistant
@@ -97,6 +103,9 @@ Connect to `127.0.0.1:3306` with your credentials and go. Open the AI panel, con
 | `Cmd + W` | Close current tab |
 | `Cmd + 1-6` | Switch workspace views |
 | `Tab` | Insert 2 spaces in editor |
+| `Double-click cell` | Inline edit (content view) |
+| `Enter` | Save cell edit |
+| `Escape` | Cancel cell edit |
 
 ## Roadmap
 
@@ -118,12 +127,19 @@ Connect to `127.0.0.1:3306` with your credentials and go. Open the AI panel, con
 - [x] Double-click favorites to connect
 - [x] Async AI (non-blocking UI)
 
-### Phase 3 — Coming Next 🚧
-- [ ] Content view filters (WHERE clause)
-- [ ] Inline cell editing
-- [ ] Query favorites & history
-- [ ] Bundled local LLM (offline AI)
-- [ ] Export results (CSV, JSON)
+### Phase 3 — Power Features ✅
+- [x] Content view filters (WHERE clause builder with multiple conditions)
+- [x] Inline cell editing (double-click to edit, auto-detects primary keys)
+- [x] Query favorites (save, name, and quick-access your go-to queries)
+- [x] Query history with execution stats
+- [x] Export results (CSV & JSON from content view and query results)
+- [x] Dark mode with persistent theme toggle
+
+### Phase 4 — Coming Next 🚧
+- [ ] Bundled local LLM (offline AI via llama.cpp)
+- [ ] SSH tunnel connections
+- [ ] SQLite support
+- [ ] Query auto-complete
 
 ---
 

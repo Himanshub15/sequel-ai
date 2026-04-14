@@ -159,6 +159,17 @@ export type QueryHistoryEntry = {
   success: boolean;
 };
 
+// ── Query Favorites ─────────────────────────────────────────────────────────
+
+export type QueryFavorite = {
+  id: string;
+  name: string;
+  sql: string;
+  database: string;
+  dbType: DbType;
+  createdAt: number;
+};
+
 // ── Toast ────────────────────────────────────────────────────────────────────
 
 export type ToastMessage = {

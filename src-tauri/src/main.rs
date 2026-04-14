@@ -1362,6 +1362,44 @@ fn list_databases(connection: ConnectionInput) -> Result<Vec<String>, String> {
     }
 }
 
+// ── Primary Keys ─────────────────────────────────────────────────────────────
+
+#[tauri::command]
+fn get_primary_keys(
+    connection: ConnectionInput,
+    table: String,
+) -> Result<Vec<String>, String> {
+    match connection.db_type.as_str() {
+        "mysql" => {
+            let mut conn = open_mysql(&connection)?;
+            let rows: Vec<String> = conn
+                .exec(
+                    "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE \
+                     WHERE TABLE_SCHEMA = :db AND TABLE_NAME = :tbl AND CONSTRAINT_NAME = 'PRIMARY' \
+                     ORDER BY ORDINAL_POSITION",
+                    params! { "db" => &connection.database, "tbl" => &table },
+                )
+                .map_err(|e| format!("Get primary keys failed: {e}"))?;
+            Ok(rows)
+        }
+        "postgres" => {
+            let mut client = open_pg(&connection)?;
+            let rows = client
+                .query(
+                    "SELECT a.attname \
+                     FROM pg_index i \
+                     JOIN pg_attribute a ON a.attrelid = i.indrelid AND a.attnum = ANY(i.indkey) \
+                     WHERE i.indrelid = $1::regclass AND i.indprimary \
+                     ORDER BY array_position(i.indkey, a.attnum)",
+                    &[&table],
+                )
+                .map_err(|e| format!("Get primary keys failed: {e}"))?;
+            Ok(rows.iter().map(|r| r.get(0)).collect())
+        }
+        other => Err(format!("Unsupported database type: {other}")),
+    }
+}
+
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 fn main() {
@@ -1379,7 +1417,8 @@ fn main() {
             generate_schema_md,
             get_table_info,
             get_table_triggers,
-            list_databases
+            list_databases,
+            get_primary_keys
         ])
         .run(tauri::generate_context!())
         .expect("failed to run app");

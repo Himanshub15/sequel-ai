@@ -10,6 +10,8 @@ import { useFavorites } from "./hooks/useFavorites";
 import { useTableComments } from "./hooks/useTableComments";
 import { useToast } from "./hooks/useToast";
 import { useQueryHistory } from "./hooks/useQueryHistory";
+import { useQueryFavorites } from "./hooks/useQueryFavorites";
+import { useTheme } from "./hooks/useTheme";
 import ConnectionTabBar from "./components/ConnectionTabBar";
 import HomePage from "./components/HomePage";
 import WorkspacePage from "./components/WorkspacePage";
@@ -55,6 +57,8 @@ export default function App() {
   const { getComment, setComment } = useTableComments();
   const { toasts, addToast, removeToast } = useToast();
   const { history, addEntry, clearHistory } = useQueryHistory();
+  const { favorites: queryFavorites, addFavorite: addQueryFavorite, removeFavorite: removeQueryFavorite } = useQueryFavorites();
+  const { theme, toggleTheme } = useTheme();
 
   const activeTab = tabs.find((t) => t.id === activeTabId) ?? tabs[0];
 
@@ -188,6 +192,11 @@ export default function App() {
               queryHistory={history}
               addHistoryEntry={addEntry}
               clearHistory={clearHistory}
+              queryFavorites={queryFavorites}
+              addQueryFavorite={addQueryFavorite}
+              removeQueryFavorite={removeQueryFavorite}
+              theme={theme}
+              onToggleTheme={toggleTheme}
             />
           </div>
         ) : tab.id === activeTabId ? (

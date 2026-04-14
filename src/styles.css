@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════════════════════
-   SQL Studio — Light Theme (Sequel Pro-inspired)
+   SQL Studio — Light & Dark Themes
    ══════════════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -24,12 +24,50 @@
   --row-alt: #f9f9fb;
   --row-even: #ffffff;
   --hover: #f2f2f7;
+  --scrollbar: #c7c7cc;
+  --scrollbar-hover: #a0a0a5;
+  --warning: #b45309;
+  --sql-keyword: #0055aa;
+  --sql-string: #b5440f;
+  --sql-number: #4338ca;
+  --sql-comment: #8e8e93;
 
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
     Roboto, "Helvetica Neue", Arial, sans-serif;
   color: var(--text);
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
+}
+
+[data-theme="dark"] {
+  --bg: #1c1c1e;
+  --bg-secondary: #2c2c2e;
+  --bg-sidebar: #252528;
+  --bg-input: #3a3a3c;
+  --border: #48484a;
+  --border-light: #3a3a3c;
+  --text: #f5f5f7;
+  --text-secondary: #b0b0b5;
+  --text-muted: #8e8e93;
+  --text-placeholder: #636366;
+  --accent: #0a84ff;
+  --accent-hover: #409cff;
+  --accent-bg: #0a84ff1a;
+  --ok: #30d158;
+  --ok-bg: #30d1581a;
+  --danger: #ff453a;
+  --danger-bg: #ff453a1a;
+  --selection: #0a84ff33;
+  --row-alt: #2c2c2e;
+  --row-even: #1c1c1e;
+  --hover: #3a3a3c;
+  --scrollbar: #48484a;
+  --scrollbar-hover: #636366;
+  --warning: #f59e0b;
+  --sql-keyword: #6cb6ff;
+  --sql-string: #f0a76a;
+  --sql-number: #b8a0ff;
+  --sql-comment: #636366;
 }
 
 * {
@@ -63,11 +101,11 @@ html, body, #root {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c7c7cc;
+  background: var(--scrollbar);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #a0a0a5;
+  background: var(--scrollbar-hover);
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
@@ -80,7 +118,7 @@ html, body, #root {
 .connectionTabBar {
   display: flex;
   align-items: stretch;
-  background: #e8e8ed;
+  background: var(--border-light);
   border-bottom: 1px solid var(--border);
   padding: 0 4px;
   min-height: 32px;
@@ -105,7 +143,7 @@ html, body, #root {
   -webkit-app-region: no-drag;
 }
 .connTab:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: var(--hover);
 }
 .connTab.active {
   background: var(--bg);
@@ -140,7 +178,7 @@ html, body, #root {
   flex-shrink: 0;
 }
 .connTabClose:hover {
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--hover);
   color: var(--danger);
 }
 
@@ -159,7 +197,7 @@ html, body, #root {
   margin: 4px 2px;
 }
 .connTabNew:hover {
-  background: rgba(0, 0, 0, 0.08);
+  background: var(--hover);
   color: var(--text);
 }
 
@@ -172,7 +210,7 @@ html, body, #root {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ee 100%);
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-sidebar) 100%);
   padding: 20px;
   overflow: auto;
 }
@@ -447,7 +485,7 @@ html, body, #root {
 }
 .testResult.success {
   background: var(--ok-bg);
-  color: #15803d;
+  color: var(--ok);
 }
 .testResult.error {
   background: var(--danger-bg);
@@ -1003,10 +1041,10 @@ html, body, #root {
   align-items: center;
   gap: 5px;
   padding: 4px 14px;
-  border: 1px solid #34c759;
+  border: 1px solid var(--ok);
   border-radius: 6px;
-  background: #ffffff;
-  color: #15803d;
+  background: var(--bg);
+  color: var(--ok);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -1226,7 +1264,7 @@ tr:hover td {
   color: var(--danger);
 }
 .msgEntry.success {
-  color: #15803d;
+  color: var(--ok);
 }
 .msgIcon {
   flex-shrink: 0;
@@ -1258,7 +1296,7 @@ tr:hover td {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #c7c7cc;
+  background: var(--text-muted);
 }
 .statusIndicator[data-on="true"] {
   background: var(--ok);
@@ -1296,7 +1334,7 @@ tr:hover td {
 
 /* ── Shared: Inputs ────────────────────────────────────────────────────────── */
 
-input, textarea {
+input, textarea, select {
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--bg-input);
@@ -1309,7 +1347,7 @@ input, textarea {
 input::placeholder, textarea::placeholder {
   color: var(--text-placeholder);
 }
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15);
@@ -1399,7 +1437,7 @@ button {
 .aiChatPanel {
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--bg);
   border-left: 1px solid var(--border);
   min-height: 0;
   overflow: hidden;
@@ -1447,7 +1485,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  background: #ffffff;
+  background: var(--bg);
 }
 
 .aiChatEmpty {
@@ -1570,7 +1608,7 @@ button {
   resize: none;
   border: 1px solid var(--border);
   border-radius: 6px;
-  background: #ffffff;
+  background: var(--bg);
   color: var(--text);
   padding: 6px 8px;
   font: 12px/1.4 inherit;
@@ -1858,6 +1896,127 @@ button {
   gap: 4px;
 }
 
+/* ── Filter Bar ──────────────────────────────────────────────────────────── */
+
+.filterBar {
+  padding: 8px 14px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.filterRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.filterSelect {
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12px;
+  min-width: 120px;
+  outline: none;
+}
+.filterSelect:focus {
+  border-color: var(--accent);
+}
+
+.filterOpSelect {
+  min-width: 90px;
+}
+
+.filterInput {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+  min-width: 100px;
+}
+.filterInput:focus {
+  border-color: var(--accent);
+}
+
+.filterRemoveBtn {
+  padding: 2px 6px;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  line-height: 1;
+}
+.filterRemoveBtn:hover {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+.filterActions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.filterApplyBtn {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border-color: var(--accent) !important;
+}
+.filterApplyBtn:hover {
+  background: var(--accent-hover) !important;
+}
+
+.filterBadge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.ghostAction.active {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ── Inline Cell Editing ─────────────────────────────────────────────────── */
+
+.cellEditable {
+  cursor: cell;
+}
+.cellEditable:hover {
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.cellEditInput {
+  width: 100%;
+  padding: 2px 4px;
+  border: 2px solid var(--accent);
+  border-radius: 3px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  box-sizing: border-box;
+}
+
 /* ── Pagination ───────────────────────────────────────────────────────────── */
 
 .paginationBar {
@@ -1936,18 +2095,18 @@ button {
   word-wrap: break-word;
   overflow: auto;
   pointer-events: none;
-  color: transparent;
+  color: var(--text);
 }
 
 .sqlKeyword {
-  color: #0055aa;
+  color: var(--sql-keyword);
   font-weight: 600;
 }
 .sqlString {
-  color: #b5440f;
+  color: var(--sql-string);
 }
 .sqlNumber {
-  color: #4338ca;
+  color: var(--sql-number);
 }
 .sqlComment {
   color: var(--text-muted);
@@ -2071,6 +2230,49 @@ button {
   color: var(--text-muted);
 }
 
+/* ── Favorites Items ──────────────────────────────────────────────────────── */
+
+.favItem {
+  display: flex !important;
+  align-items: center;
+  padding: 0 !important;
+}
+
+.favItemBody {
+  flex: 1;
+  padding: 7px 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  min-width: 0;
+}
+.favItemBody:hover {
+  background: var(--hover);
+}
+
+.favItemName {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favRemoveBtn {
+  padding: 4px 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.favRemoveBtn:hover {
+  color: var(--danger);
+}
+
 /* ── Empty States ─────────────────────────────────────────────────────────── */
 
 .emptyState {
@@ -2144,13 +2346,13 @@ button {
   max-width: 320px;
 }
 .toast--success {
-  background: #15803d;
+  background: var(--ok);
 }
 .toast--error {
   background: var(--danger);
 }
 .toast--info {
-  background: #1d4ed8;
+  background: var(--accent);
 }
 
 .toastIcon {
@@ -2304,11 +2506,11 @@ button {
   font-size: 11px;
 }
 .schemaStatus--generating {
-  color: #b45309;
+  color: var(--warning);
   animation: pulse 1.5s infinite;
 }
 .schemaStatus--ready {
-  color: #15803d;
+  color: var(--ok);
 }
 .schemaStatus--error {
   color: var(--danger);

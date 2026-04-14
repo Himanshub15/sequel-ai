@@ -7,6 +7,7 @@ import type {
   WorkspaceTab,
   ConnectionColor,
   QueryHistoryEntry,
+  QueryFavorite,
   ToastMessage,
 } from "../types";
 import { CONNECTION_COLORS } from "../types";
@@ -36,6 +37,11 @@ type WorkspacePageProps = {
   queryHistory: QueryHistoryEntry[];
   addHistoryEntry: (entry: Omit<QueryHistoryEntry, "id" | "timestamp">) => void;
   clearHistory: () => void;
+  queryFavorites: QueryFavorite[];
+  addQueryFavorite: (entry: Omit<QueryFavorite, "id" | "createdAt">) => void;
+  removeQueryFavorite: (id: string) => void;
+  theme: "light" | "dark";
+  onToggleTheme: () => void;
 };
 
 export default function WorkspacePage({
@@ -48,6 +54,11 @@ export default function WorkspacePage({
   queryHistory,
   addHistoryEntry,
   clearHistory,
+  queryFavorites,
+  addQueryFavorite,
+  removeQueryFavorite,
+  theme,
+  onToggleTheme,
 }: WorkspacePageProps) {
   const {
     connectionInput,
@@ -328,6 +339,8 @@ export default function WorkspacePage({
         onShowShortcuts={() => setShowShortcuts(true)}
         databases={databases}
         onSwitchDatabase={handleSwitchDatabase}
+        theme={theme}
+        onToggleTheme={onToggleTheme}
       />
 
       <section
@@ -359,6 +372,7 @@ export default function WorkspacePage({
               connected={true}
               addToast={addToast}
               totalRowCount={tableRowCounts[activeTable]}
+              schemaColumns={schema?.tables.find((t) => t.tableName === activeTable)?.columns}
             />
           ) : activeWorkspaceTab === "structure" && hasTableSelected ? (
             <StructureView
@@ -394,6 +408,11 @@ export default function WorkspacePage({
                 dbType={connectionInput.dbType}
                 queryHistory={queryHistory}
                 onClearHistory={clearHistory}
+                queryFavorites={queryFavorites}
+                onAddFavorite={(name: string, sql: string) =>
+                  addQueryFavorite({ name, sql, database: connectionInput.database, dbType: connectionInput.dbType })
+                }
+                onRemoveFavorite={removeQueryFavorite}
               />
               <ResultPanel
                 result={queryResult}

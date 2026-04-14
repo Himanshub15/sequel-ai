@@ -13,6 +13,8 @@ type ToolbarProps = {
   onShowShortcuts: () => void;
   databases: string[];
   onSwitchDatabase: (db: string) => void;
+  theme: "light" | "dark";
+  onToggleTheme: () => void;
 };
 
 export default function Toolbar({
@@ -28,6 +30,8 @@ export default function Toolbar({
   onShowShortcuts,
   databases,
   onSwitchDatabase,
+  theme,
+  onToggleTheme,
 }: ToolbarProps) {
   const dbLabel = dbType === "postgres" ? "PostgreSQL" : "MySQL";
 
@@ -138,6 +142,22 @@ export default function Toolbar({
       </div>
 
       <div className="toolbarRight">
+        <button
+          type="button"
+          className="toolbarIconBtn"
+          onClick={onToggleTheme}
+          title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
+        >
+          {theme === "light" ? (
+            <svg viewBox="0 0 16 16" width="14" height="14">
+              <path d="M8 1a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1A.5.5 0 018 1zm0 10a3 3 0 100-6 3 3 0 000 6zm6.5-2.5a.5.5 0 010-1h1a.5.5 0 010 1h-1zm-13 0a.5.5 0 010-1h1a.5.5 0 010 1h-1zM8 13a.5.5 0 01.5.5v1a.5.5 0 01-1 0v-1A.5.5 0 018 13zm-3.5-1.6a.5.5 0 01-.7.7l-.7-.7a.5.5 0 01.7-.7l.7.7zm8.4-7.1a.5.5 0 01-.7.7l-.7-.7a.5.5 0 01.7-.7l.7.7zm-8.4 0l-.7-.7a.5.5 0 01.7-.7l.7.7a.5.5 0 01-.7.7zm8.4 7.1l-.7-.7a.5.5 0 01.7-.7l.7.7a.5.5 0 01-.7.7z" fill="currentColor"/>
+            </svg>
+          ) : (
+            <svg viewBox="0 0 16 16" width="14" height="14">
+              <path d="M6 1a.5.5 0 00-.5.6A5 5 0 0010.4 9a5 5 0 004.4-2.5.5.5 0 00-.6-.5A6 6 0 016 1z" fill="currentColor"/>
+            </svg>
+          )}
+        </button>
         <button
           type="button"
           className="toolbarIconBtn"
